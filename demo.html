@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>JQuery Scroll Till End</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            .info,.load{width:30%;display:inline-block;}
+            .info{width:32%;border:1px solid;margin:10px 0}
+            .load{height:100px;overflow-y:auto;padding:10px}
+            .second-div{margin-top:5px;border:1px solid;height:50px}
+            .text {
+                height:auto;
+                display:block;
+                border:1px solid;
+                overflow:visible;
+            }
+            .text,.text-info {
+                margin-left:auto;
+                margin-right:auto;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="load" data-load-first-page="true"></div>
+        <div class="load" data-parse="parseData">
+            <div class="second-div">#2: Pre-loaded Data</div>
+            <div class="second-div">#2: Pre-loaded Data</div>
+            <div class="second-div">#2: Pre-loaded Data</div>
+            <div class="second-div">#2: Pre-loaded Data</div>
+            <div class="second-div">#2: Pre-loaded Data</div>
+            <div class="second-div">#2: Pre-loaded Data</div>
+            <div class="second-div">#2: Pre-loaded Data</div>
+            <div class="second-div">#2: Pre-loaded Data</div>
+            <div class="second-div">#2: Pre-loaded Data</div>
+            <div class="second-div">#2: Pre-loaded Data</div>
+        </div>
+        <div class="load" data-parse="obj.parse" data-page-key="target_page">
+            #3: Pre-loaded Data<br />
+            #3: Pre-loaded Data<br />
+            #3: Pre-loaded Data<br />
+            #3: Pre-loaded Data<br />
+            #3: Pre-loaded Data<br />
+            #3: Pre-loaded Data<br />
+            #3: Pre-loaded Data<br />
+            #3: Pre-loaded Data<br />
+            #3: Pre-loaded Data<br />
+            #3: Pre-loaded Data<br />
+        </div>
+        <div class="info">10 Pages - Load page 1</div>
+        <div class="info">10 Pages - Page 1 already loaded. Starting from page 2</div>
+        <div class="info">10 Pages - Page 1 already loaded. Starting from page 2.</div>
+        <div class="load text" data-data="type=ipsum" data-data-type="html" data-watch-self="false" data-load-first-page="true"></div>
+        <script
+            src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+        crossorigin="anonymous"></script>
+        <script src="jq-scroll-till-end.min.js" ></script>
+        <script>
+            var obj = {
+                parse: function (data) {
+                    return '#3: ' + data + '<br/>';
+                }
+            };
+            function parseData(data) {
+                return '<div class="second-div">' + data + '</div>';
+            }
+            $(function () {
+                $('.load').scrollTillEnd({
+                    url: './data.php',
+                    dataType: 'json',
+                    watchSelf: true,
+                    parse: function (data) {
+                        return '#' + this.page + ': ' + data + '<br/>';
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>
