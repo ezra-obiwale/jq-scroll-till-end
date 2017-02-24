@@ -18,7 +18,6 @@ A JQuery plugin to keep loading more content when the browser is scrolled until 
     $('#load').scrollTillEnd({
       url: '/path/to/data',
       loadFirstPage: true,
-      offset: 200,
       parse: function(data) {
         // do something with the data and return it
         return data;
@@ -42,7 +41,8 @@ end|function|`function`|Called when there's all the content have been gotten fro
 fail|function|`function`|Called if the ajax call fails
 loadFirstPage|boolean|`false`|Indicates whether the plugin should load the first page. By default, the plugin kicks on from page 2 onward.
 method|string|`get`|The request method (get/post/...)
-offset|integer|`0`|The offset from the bottom of the page when the loading kicks in
+offset|integer|`200`|The offset from the bottom of the page when the loading kicks in
+pageIndicator|string\|boolean|The string that indicates which page is being shown. Use placeholder `{page}` to show the page number in the string
 pageKey|string|`page`|The request data key to hold the desired page number
 parse|function|`false`|Called on each data in each response. Paramaters are `data` and `index`. The returned data is appended to the target element.
 url|string|`location.href`|The url to fetch new contents from
