@@ -34,7 +34,7 @@ data|object|`{}`|Data to send with the request
 dataKey|string|`null`|Necessary only if dataType is `json` and the data is a subset of the response object. If the data is an array of the of data however, this should be ignored.
 dataType|string|`html`|The type of response expected (html/json)
 done|function|`function`|Called after the response is gotten. If `parse` is a function, it is called `parse()`. Parameters include `response`.
-end|function|`function`|Called when there's all the content have been gotten from the server
+end|function|`function`|Called when all the content have been gotten from the server
 fail|function|`function`|Called if the ajax call fails
 loadFirstPage|boolean|`false`|Indicates whether the plugin should load the first page. By default, the plugin kicks on from page 2 onward.
 method|string|`get`|The request method (get/post/...)
