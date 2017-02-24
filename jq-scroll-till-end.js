@@ -33,20 +33,25 @@ var steConfig = {length: 0};
         var data = config.dataKey ? resp[config.dataKey] : resp,
                 parse = callable(config.parse, true);
         if (config.dataType.toLowerCase() === 'html') {
-            console.log($.trim(data) === '', $.trim(data));
             // stop trying to fetch data if no more data exists
-            if ($.trim(data) === '' || !data) {
+            if (!data || $.trim(data) === '') {
                 $(target).removeClass('scrolling-till-end');
-                callable(config.end).apply(target);
+                if (page === 1)
+                    callable(config.empty).call(target, resp);
+                else
+                    callable(config.end).apply(target);
                 return;
             }
             data = [data];
         }
         else if (config.dataType.toLowerCase() === 'json') {
             // stop trying to fetch data if no more data exists
-            if (!data.length) {
+            if (!data || !Object.keys(data).length) {
                 $(target).removeClass('scrolling-till-end');
-                callable(config.end).apply(target);
+                if (page === 1)
+                    callable(config.empty).call(target, resp);
+                else
+                    callable(config.end).apply(target);
                 return;
             }
         }
@@ -54,7 +59,13 @@ var steConfig = {length: 0};
         $(target).data('pages', page);
         this.page = page;
 
-        $(target).find('.ste-loading').removeClass('ste-loading').html('- PAGE ' + page + ' -');
+        if (typeof config.pageIndicator !== 'boolean') {
+            $(target).find('.ste-loading').removeClass('ste-loading')
+                    .html(config.pageIndicator.replace(/\{page\}/i, page));
+        }
+        else {
+            $(target).find('.ste-loading').removeClass('ste-loading').remove();
+        }
 
         if (parse) {
             $.each(data, function (i, v) {
@@ -102,7 +113,7 @@ var steConfig = {length: 0};
                 complete(config, target, Array.from(arguments));
             },
             always: function () {
-                error(config, target, Array.from(arguments));
+                complete(config, target, Array.from(arguments));
             }
         });
 
@@ -137,10 +148,13 @@ var steConfig = {length: 0};
             data: {},
             dataKey: null,
             loadFirstPage: false,
-            offset: 0,
+            offset: 200,
             watchSelf: false,
+            pageIndicator: '- PAGE {page} -',
             beforeAjax: function () {
-                $(this).append('<div style="text-align:center;padding:10px;margin:10px 0;clear:both;width:100%" class="ste-loading"><i>loading...</i></div>');
+                $(this).append('<div style="text-align:center;padding:10px;margin:10px 0;'
+                        + 'clear:both;width:100%" class="ste-loading"><i>loading...'
+                        + '</i></div>');
             },
             parse: function (data) {
                 return data;
@@ -148,10 +162,11 @@ var steConfig = {length: 0};
             end: function () {
                 $(this).find('.ste-loading').removeClass('ste-loading').html('- THE END -');
             },
+            empty: function () {
+            },
             done: function (data) {
             },
             fail: function () {
-
             },
             always: function () {
             }
