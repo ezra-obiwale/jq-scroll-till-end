@@ -1,6 +1,3 @@
-# jq-scroll-till-end
-A JQuery plugin to keep loading more content when the browser is scrolled until there's none to load anymore.
-
 ## Usage
 
 ```html
