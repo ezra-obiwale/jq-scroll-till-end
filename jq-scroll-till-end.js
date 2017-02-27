@@ -69,8 +69,8 @@ var steConfig = {length: 0};
 
         if (parse) {
             $.each(data, function (i, v) {
-                $(target).append(parse.call(this, v, i));
-            }.bind(this));
+                $(target).append(parse.call(target, v, i));
+            });
         }
         callable(config.done).call(target, resp);
     }
